@@ -872,12 +872,15 @@ public class ConfigManager {
         executeInTransaction(() -> {
             db.delete("scope", "mid = ?", new String[]{String.valueOf(mid)});
             for (Application app : scopes) {
+                String setlog = "to add module "+ packageName + " to target " + app.packageName + " uid " + app.userId;
+                Log.i(TAG, "Attemp " + setlog);
                 if (app.packageName.equals("system") && app.userId != 0) continue;
                 ContentValues values = new ContentValues();
                 values.put("mid", mid);
                 values.put("app_pkg_name", app.packageName);
                 values.put("user_id", app.userId);
                 db.insertWithOnConflict("scope", null, values, SQLiteDatabase.CONFLICT_IGNORE);
+                Log.i(TAG, "Finished " + setlog);
             }
         });
         // Called by manager, should be async
@@ -886,6 +889,8 @@ public class ConfigManager {
     }
 
     public boolean setModuleScope(String packageName, String scopePackageName, int userId) {
+        String setlog = "to add module "+ packageName + " to target " + scopePackageName + " uid " + userId;
+        Log.i(TAG, "Attemp " + setlog);
         if (scopePackageName == null) return false;
         int mid = getModuleId(packageName);
         if (mid == -1) return false;
@@ -897,6 +902,7 @@ public class ConfigManager {
             values.put("user_id", userId);
             db.insertWithOnConflict("scope", null, values, SQLiteDatabase.CONFLICT_IGNORE);
         });
+        Log.i(TAG, "Finished " + setlog);
         // Called by xposed service, should be async
         updateCaches(false);
         return true;
