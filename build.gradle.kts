@@ -52,6 +52,13 @@ cmaker {
             arguments += "-DDEBUG_SYMBOLS_PATH=${
                 layout.buildDirectory.dir("symbols").get().asFile.absolutePath
             }"
+        val af = arrayOf(
+            "-O3",
+            "-mllvm --enable-constraint-elimination=true",
+            "-mllvm --extra-vectorizer-passes=true",
+            "-mllvm --enable-loopinterchange=true",
+        )
+        cFlags.addAll(af)
         }
     }
 }
