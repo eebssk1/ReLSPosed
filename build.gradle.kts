@@ -57,6 +57,8 @@ cmaker {
             "-mllvm --enable-constraint-elimination=true",
             "-mllvm --extra-vectorizer-passes=true",
             "-mllvm --enable-loopinterchange=true",
+            "-mllvm --enable-partial-inlining=true",
+            "-mllvm --enable-dfa-jump-thread=true",
         )
         cFlags.addAll(af)
         }
