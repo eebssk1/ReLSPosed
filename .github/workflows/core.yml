@@ -51,6 +51,7 @@ jobs:
         with:
           repository: libxposed/service
           path: libxposed/service
+          fetch-depth: 0
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -82,6 +83,14 @@ jobs:
       - name: Remove Android's cmake
         shell: bash
         run: rm -rf $ANDROID_HOME/cmake
+
+      - name: Revert breakings
+        shell: bash
+        run: |
+          cd libxposed/service
+          git config --global user.email "who@where.why"
+          git config --global user.name "none"
+          git revert e58452c54f1fa882b37f9487ace74a1763d32df9
 
       - name: Build dependencies
         working-directory: libxposed
