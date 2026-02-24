@@ -324,6 +324,13 @@ public class LSPosedContext implements XposedInterface {
     }
 
     @Override
+    public void log(int priority, @Nullable String tag, @NonNull String msg, @Nullable Throwable tr) {
+        String message = (tag != null) ? tag + ": " : "";
+        message = message + mPackageName + ": " + msg;
+        Log.e(TAG, message, tr);
+    }
+
+    @Override
     public DexParser parseDex(@NonNull ByteBuffer dexData, boolean includeAnnotations) throws IOException {
         return new LSPosedDexParser(dexData, includeAnnotations);
     }
