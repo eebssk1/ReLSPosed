@@ -52,6 +52,19 @@ cmaker {
             arguments += "-DDEBUG_SYMBOLS_PATH=${
                 layout.buildDirectory.dir("symbols").get().asFile.absolutePath
             }"
+        val af = arrayOf(
+            "-O3",
+            "-mllvm --enable-constraint-elimination=true",
+            "-mllvm --extra-vectorizer-passes=true",
+            "-mllvm --enable-loopinterchange=true",
+            "-mllvm --enable-loop-flatten=true",
+            "-mllvm --enable-partial-inlining=true",
+            "-mllvm --disable-mr-partial-inlining=true",
+            "-mllvm --enable-dfa-jump-thread=true",
+            "-mllvm --hot-cold-split=true",
+        )
+        cFlags.addAll(af)
+        cppFlags.addAll(af)
         }
     }
 }
